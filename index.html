@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Warstation VR Club — VR-арена, PvP-шутер, квесты, хоррор и фэнтези-приключения." />
+  <title>Warstation VR Club</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="header" id="header">
+    <a href="#top" class="logo"><span>VR</span> WARSTATION</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Открыть меню"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="#games">Игры</a>
+      <a href="#price">Цены</a>
+      <a href="#booking">Запись</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <video autoplay muted loop playsinline class="hero-video">
+        <source src="video/hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-dark"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-content reveal">
+        <p class="hero-label">VR ARENA</p>
+        <h1>WARSTATION</h1>
+        <p class="hero-subtitle">Погрузись в другую реальность</p>
+        <div class="hero-buttons">
+          <a href="#booking" class="btn">Забронировать игру</a>
+          <a href="#games" class="btn btn-outline">Смотреть игры</a>
+        </div>
+      </div>
+      <a class="scroll-down" href="#games">↓</a>
+    </section>
+
+    <section id="games" class="games">
+      <div class="section-title reveal">
+        <p>Наши игры</p>
+        <h2>Выбери свою миссию</h2>
+      </div>
+
+      <article class="game reveal final">
+        <div class="game-img"><img src="images/final-squad.jpg" alt="Final Squad" /></div>
+        <div class="game-text">
+          <span>2–10 игроков</span>
+          <h2>Final Squad</h2>
+          <p>Командный VR-шутер с динамичными PvP-сражениями. Две команды, тактика, адреналин и полное погружение.</p>
+          <ul><li>Командные сражения</li><li>Большая арена</li><li>Тактика и стратегия</li></ul>
+          <a href="#booking">Записаться</a>
+        </div>
+      </article>
+
+      <article class="game reverse reveal sector">
+        <div class="game-img"><img src="images/sector.jpg" alt="Sector" /></div>
+        <div class="game-text">
+          <span>1–4 игрока</span>
+          <h2>Sector</h2>
+          <p>Научно-фантастический VR-квест в секретной лаборатории. Разгадайте, что произошло во время эксперимента.</p>
+          <ul><li>Исследование лаборатории</li><li>Головоломки</li><li>Раскрытие тайны</li></ul>
+          <a href="#booking">Записаться</a>
+        </div>
+      </article>
+
+      <article class="game reveal knights">
+        <div class="game-img"><img src="images/knights.jpg" alt="Knights & Magic" /></div>
+        <div class="game-text">
+          <span>1–4 игрока</span>
+          <h2>Knights & Magic</h2>
+          <p>Фэнтезийное приключение с магией, загадками, древним замком и битвой с драконом.</p>
+          <ul><li>Средневековый замок</li><li>Магия и испытания</li><li>Эпичная битва</li></ul>
+          <a href="#booking">Записаться</a>
+        </div>
+      </article>
+
+      <article class="game reverse reveal horror">
+        <div class="game-img"><img src="images/infestation.jpg" alt="Infestation Z" /></div>
+        <div class="game-text">
+          <span>1–4 игрока</span>
+          <h2>Infestation Z</h2>
+          <p>Атмосферный VR-хоррор про заражённую лабораторию. Работайте в команде и выживите любой ценой.</p>
+          <ul><li>Хоррор-атмосфера</li><li>Кооператив</li><li>Миссия на выживание</li></ul>
+          <a href="#booking">Записаться</a>
+        </div>
+      </article>
+    </section>
+
+    <section id="price" class="price">
+      <div class="section-title reveal"><p>Прайс-лист</p><h2>Стоимость игры</h2></div>
+      <div class="price-grid">
+        <div class="price-card reveal"><h3>ПН–ЧТ</h3><strong>600 ₽</strong><p>за человека</p><small>40 минут игры</small></div>
+        <div class="price-card reveal"><h3>ПТ–ВС</h3><strong>800 ₽</strong><p>за человека</p><small>40 минут игры</small></div>
+        <div class="price-card reveal"><h3>1,5 часа</h3><strong>6000 ₽</strong><p>до 10 человек</p><small>40 минут игры</small></div>
+        <div class="price-card reveal"><h3>3 часа</h3><strong>12000 ₽</strong><p>до 10 человек</p><small>80 минут игры</small></div>
+      </div>
+      <div class="night reveal"><span>Ночное бронирование</span><strong>20 000 ₽</strong><p>с 21:00 до 02:00, команда до 10 человек</p></div>
+    </section>
+
+    <section id="booking" class="booking">
+      <div class="booking-box reveal">
+        <div>
+          <p class="small-title">Онлайн-запись</p>
+          <h2>Забронируй игру</h2>
+          <p>Напишите нам в Telegram или MAX. Мы подберём удобное время и подтвердим запись.</p>
+        </div>
+        <form id="bookingForm" class="booking-form">
+  <div class="form-row">
+    <input type="text" name="name" placeholder="Ваше имя" required>
+    <input type="tel" name="phone" placeholder="Телефон" required>
+  </div>
+
+  <div class="form-row">
+    <input type="number" name="players" min="1" max="10" placeholder="Количество игроков" required>
+    <input type="number" name="age" min="6" max="99" placeholder="Возраст" required>
+  </div>
+
+  <div class="form-row">
+    <input type="date" name="date" required>
+    <input type="time" name="time" required>
+  </div>
+
+  <textarea name="comment" rows="4" placeholder="Комментарий (необязательно)"></textarea>
+
+  <button type="submit" class="btn form-btn">Забронировать</button>
+</form>
+        <div class="booking-buttons">
+          <a href="https://t.me/archi_vik_viki" target="_blank" class="btn">Telegram</a>
+          <a href="https://max.ru/" target="_blank" class="btn btn-outline">MAX</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contacts" class="footer reveal">
+    <h2>WARSTATION</h2>
+    <p>📍 ул. Хрещатинская, 68Б</p>
+    <p>📞 <a href="tel:+79004267579">8 (900) 426-75-79</a></p>
+    <p>📲 Telegram: <a href="https://t.me/archi_vik_viki" target="_blank">@archi_vik_viki</a></p>
+    <p>💬 MAX: 89004267579</p>
+    <p>🕒 Ежедневно с 11:00 до 21:00</p>
+  </footer>
+
+  <button class="top-btn" id="topBtn" aria-label="Наверх">↑</button>
+  <script src="script.js"></script>
+</body>
+</html>
