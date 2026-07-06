@@ -1,8 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const header = document.querySelector("#header");
-  const menuBtn = document.querySelector("#menuBtn");
-  const nav = document.querySelector("#nav");
-  const topBtn = document.querySelector("#topBtn");
+
+    if (typeof flatpickr !== "undefined") {
+        flatpickr("#datetime", {
+            locale: "ru",
+            enableTime: true,
+            time_24hr: true,
+            minuteIncrement: 30,
+            minDate: "today",
+            minTime: "11:00",
+            maxTime: "21:00",
+            dateFormat: "d.m.Y H:i",
+            disableMobile: true
+        });
+    }
+
+    const header = document.querySelector("#header");
+    const menuBtn = document.querySelector("#menuBtn");
+    const nav = document.querySelector("#nav");
+    const topBtn = document.querySelector("#topBtn");
   const revealItems = document.querySelectorAll(".reveal");
   const bookingForm = document.querySelector("#bookingForm");
 
