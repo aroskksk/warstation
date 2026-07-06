@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 📞 Телефон: ${data.get("phone")}
 👥 Количество игроков: ${data.get("players")}
 🎂 Возраст участников: ${data.get("age")}
-📅 Дата: ${data.get("date")}
+📅 Дата и время: ${data.get("datetime")}
 🕒 Желаемое время: ${data.get("time")}
 
 💬 Комментарий:
