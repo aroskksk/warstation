@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const [datePart, timePart] = datetime.split(" ");
     const [day, month, year] = datePart.split(".");
 
-    const start = new Date(`${year}-${month}-${day}T${timePart}:00+03:00`);
+    const start = new Date(`${year}-${month}-${day}T${timePart}:00+10:00`);
     const end = new Date(start.getTime() + 60 * 60 * 1000);
 
     const calendarUrl =
