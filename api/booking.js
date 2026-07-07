@@ -36,8 +36,10 @@ export default async function handler(req, res) {
     console.log(calendarData);
 console.log("ITEMS:", calendarData.items);
 console.log("COUNT:", calendarData.items?.length);
-    console.log("Google Calendar:", calendarData);
-
+    console.log(
+  "GOOGLE RESPONSE:",
+  JSON.stringify(calendarData, null, 2)
+);
     if (!calendarResponse.ok) {
       return res.status(500).json({
         message: "Не удалось проверить календарь. Попробуйте позже."
