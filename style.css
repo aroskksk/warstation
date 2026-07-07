@@ -911,13 +911,12 @@ select {
 }
 
 .accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s ease;
+  display: none;
+  overflow: visible;
 }
 
 .accordion-content.open {
-  max-height: 5000px;
+  display: block;
 }
 
 .kids-image-card {

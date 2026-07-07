@@ -103,6 +103,8 @@ function updateParentsHeight(element) {
   }
 }
 
+const accordionButtons = document.querySelectorAll(".accordion-btn");
+
 accordionButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const content = button.nextElementSibling;
@@ -110,19 +112,7 @@ accordionButtons.forEach((button) => {
     if (!content) return;
 
     button.classList.toggle("active");
-
-    if (content.classList.contains("open")) {
-      content.style.maxHeight = null;
-      content.classList.remove("open");
-    } else {
-      content.classList.add("open");
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
-
-    setTimeout(() => {
-      updateParentsHeight(content);
-    }, 50);
+    content.classList.toggle("open");
   });
 });
-
 });
