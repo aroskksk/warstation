@@ -33,6 +33,9 @@ export default async function handler(req, res) {
 
     const calendarResponse = await fetch(calendarUrl);
     const calendarData = await calendarResponse.json();
+    console.log(calendarData);
+console.log("ITEMS:", calendarData.items);
+console.log("COUNT:", calendarData.items?.length);
     console.log("Google Calendar:", calendarData);
 
     if (!calendarResponse.ok) {
