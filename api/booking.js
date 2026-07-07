@@ -33,6 +33,7 @@ export default async function handler(req, res) {
 
     const calendarResponse = await fetch(calendarUrl);
     const calendarData = await calendarResponse.json();
+    console.log("Google Calendar:", calendarData);
 
     if (!calendarResponse.ok) {
       return res.status(500).json({
@@ -45,6 +46,7 @@ export default async function handler(req, res) {
 console.log("BUSY EVENTS:", busyEvents.length);
 console.log("CHECK FROM:", start.toISOString());
 console.log("CHECK TO:", end.toISOString());
+
 
     if (busyEvents.length > 0) {
       return res.status(409).json({
