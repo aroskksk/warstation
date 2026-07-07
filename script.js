@@ -1,23 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (typeof flatpickr !== "undefined") {
+    flatpickr("#datetime", {
+      locale: "ru",
+      enableTime: true,
+      time_24hr: true,
+      minuteIncrement: 30,
+      minDate: "today",
+      minTime: "11:00",
+      maxTime: "21:00",
+      dateFormat: "d.m.Y H:i",
+      disableMobile: true
+    });
+  }
 
-    if (typeof flatpickr !== "undefined") {
-        flatpickr("#datetime", {
-            locale: "ru",
-            enableTime: true,
-            time_24hr: true,
-            minuteIncrement: 30,
-            minDate: "today",
-            minTime: "11:00",
-            maxTime: "21:00",
-            dateFormat: "d.m.Y H:i",
-            disableMobile: true
-        });
-    }
-
-    const header = document.querySelector("#header");
-    const menuBtn = document.querySelector("#menuBtn");
-    const nav = document.querySelector("#nav");
-    const topBtn = document.querySelector("#topBtn");
+  const header = document.querySelector("#header");
+  const menuBtn = document.querySelector("#menuBtn");
+  const nav = document.querySelector("#nav");
+  const topBtn = document.querySelector("#topBtn");
   const revealItems = document.querySelectorAll(".reveal");
   const bookingForm = document.querySelector("#bookingForm");
 
@@ -51,38 +50,34 @@ document.addEventListener("DOMContentLoaded", () => {
     bookingForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const TOKEN = "8734335779:AAGRJgordbn1p5tVyskf0htdCbjv7rxCTK8";
-      const CHAT_ID = "8012945578";
-
       const data = new FormData(bookingForm);
 
-      const message = `
-🎮 Новая заявка WARSTATION
-
-👤 Имя: ${data.get("name")}
-📞 Телефон: ${data.get("phone")}
-👥 Количество игроков: ${data.get("players")}
-🎂 Возраст участников: ${data.get("age")}
-📅 Дата и время: ${data.get("datetime")}
-🕒 Желаемое время: ${data.get("time")}
-
-💬 Комментарий:
-${data.get("comment") || "Нет"}
-`;
+      const payload = {
+        name: data.get("name"),
+        phone: data.get("phone"),
+        players: data.get("players"),
+        age: data.get("age"),
+        datetime: data.get("datetime"),
+        comment: data.get("comment")
+      };
 
       try {
-        await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        const response = await fetch("/api/booking", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message
-          })
+          body: JSON.stringify(payload)
         });
 
-        alert("Заявка отправлена! Мы скоро свяжемся с вами.");
+        const result = await response.json();
+
+        if (!response.ok) {
+          alert(result.message);
+          return;
+        }
+
+        alert(result.message);
         bookingForm.reset();
       } catch (error) {
         alert("Ошибка отправки. Попробуйте ещё раз.");
@@ -90,16 +85,16 @@ ${data.get("comment") || "Нет"}
     });
   }
 
-const accButtons = document.querySelectorAll(".acc-btn");
+  const accButtons = document.querySelectorAll(".acc-btn");
 
-accButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const panel = button.nextElementSibling;
+  accButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const panel = button.nextElementSibling;
 
-    if (!panel) return;
+      if (!panel) return;
 
-    button.classList.toggle("active");
-    panel.classList.toggle("open");
+      button.classList.toggle("active");
+      panel.classList.toggle("open");
+    });
   });
-});
 });
