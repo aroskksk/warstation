@@ -91,21 +91,37 @@ ${data.get("comment") || "Нет"}
   }
  const accordionButtons = document.querySelectorAll(".accordion-btn");
 
+function updateParentsHeight(element) {
+  let parent = element.parentElement;
+
+  while (parent) {
+    if (parent.classList.contains("accordion-content") && parent.classList.contains("open")) {
+      parent.style.maxHeight = parent.scrollHeight + "px";
+    }
+
+    parent = parent.parentElement;
+  }
+}
+
 accordionButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    button.classList.toggle("active");
-
     const content = button.nextElementSibling;
 
     if (!content) return;
 
-    if (content.style.maxHeight) {
+    button.classList.toggle("active");
+
+    if (content.classList.contains("open")) {
       content.style.maxHeight = null;
       content.classList.remove("open");
     } else {
-      content.style.maxHeight = content.scrollHeight + "px";
       content.classList.add("open");
+      content.style.maxHeight = content.scrollHeight + "px";
     }
+
+    setTimeout(() => {
+      updateParentsHeight(content);
+    }, 50);
   });
 });
 

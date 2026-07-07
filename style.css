@@ -913,7 +913,7 @@ select {
 .accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height .45s ease;
+  transition: max-height 0.45s ease;
 }
 
 .accordion-content.open {
