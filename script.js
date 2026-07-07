@@ -89,6 +89,7 @@ ${data.get("comment") || "Нет"}
       }
     });
   }
+
 const accButtons = document.querySelectorAll(".acc-btn");
 
 accButtons.forEach((button) => {

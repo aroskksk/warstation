@@ -907,17 +907,12 @@ select {
 }
 
 .acc-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s ease;
-}
-
-.acc-panel > * {
-  overflow: hidden;
+  display: none;
+  padding-top: 18px;
 }
 
 .acc-panel.open {
-  grid-template-rows: 1fr;
+  display: block;
 }
 
 .acc-item.nested {
