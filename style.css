@@ -864,59 +864,69 @@ select {
     font-size: 38px;
   }
 }
-.accordion {
+.games-accordion {
   max-width: 1300px;
   margin: 0 auto;
 }
 
-.accordion-btn {
-  width: 100%;
+.acc-item {
   margin-bottom: 18px;
+}
+
+.acc-btn {
+  width: 100%;
   padding: 24px 28px;
   border-radius: 22px;
-  border: 1px solid rgba(0, 234, 255, 0.3);
-  background: linear-gradient(135deg, rgba(0, 234, 255, 0.14), rgba(255,255,255,0.04));
+  border: 1px solid rgba(0, 234, 255, 0.32);
+  background: linear-gradient(135deg, rgba(0, 234, 255, 0.14), rgba(255, 255, 255, 0.04));
   color: white;
   font-family: 'Orbitron', sans-serif;
   font-size: 26px;
   font-weight: 900;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  transition: .3s;
+  justify-content: space-between;
+  transition: 0.3s;
 }
 
-.accordion-btn:hover,
-.accordion-btn.active {
+.acc-btn:hover,
+.acc-btn.active {
   border-color: #00eaff;
-  box-shadow: 0 0 35px rgba(0,234,255,.25);
+  box-shadow: 0 0 35px rgba(0, 234, 255, 0.28);
 }
 
-.accordion-btn span {
+.acc-btn b {
   color: #00eaff;
   font-size: 34px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.accordion-btn.active span {
-  transform: rotate(45deg);
+.acc-btn.active b {
+  transform: rotate(180deg);
 }
 
-.accordion-btn.inner {
-  margin-left: 30px;
-  width: calc(100% - 30px);
+.acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s ease;
+}
+
+.acc-panel > * {
+  overflow: hidden;
+}
+
+.acc-panel.open {
+  grid-template-rows: 1fr;
+}
+
+.acc-item.nested {
+  margin: 18px 0 18px 30px;
+}
+
+.acc-item.nested .acc-btn {
   font-size: 22px;
   border-color: rgba(185, 132, 255, 0.35);
-}
-
-.accordion-content {
-  display: none;
-  overflow: visible;
-}
-
-.accordion-content.open {
-  display: block;
 }
 
 .kids-image-card {
@@ -924,8 +934,8 @@ select {
   max-width: 1200px;
   border-radius: 30px;
   overflow: hidden;
-  border: 1px solid rgba(0,234,255,.35);
-  box-shadow: 0 0 50px rgba(0,234,255,.22);
+  border: 1px solid rgba(0, 234, 255, 0.35);
+  box-shadow: 0 0 50px rgba(0, 234, 255, 0.22);
 }
 
 .kids-image-card img {
@@ -933,15 +943,17 @@ select {
   display: block;
 }
 
-@media(max-width:700px) {
-  .accordion-btn {
+@media (max-width: 700px) {
+  .acc-btn {
     font-size: 18px;
     padding: 20px;
   }
 
-  .accordion-btn.inner {
+  .acc-item.nested {
     margin-left: 0;
-    width: 100%;
+  }
+
+  .acc-item.nested .acc-btn {
     font-size: 17px;
   }
 }

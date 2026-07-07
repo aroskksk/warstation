@@ -89,30 +89,16 @@ ${data.get("comment") || "Нет"}
       }
     });
   }
- const accordionButtons = document.querySelectorAll(".accordion-btn");
+const accButtons = document.querySelectorAll(".acc-btn");
 
-function updateParentsHeight(element) {
-  let parent = element.parentElement;
-
-  while (parent) {
-    if (parent.classList.contains("accordion-content") && parent.classList.contains("open")) {
-      parent.style.maxHeight = parent.scrollHeight + "px";
-    }
-
-    parent = parent.parentElement;
-  }
-}
-
-const accordionButtons = document.querySelectorAll(".accordion-btn");
-
-accordionButtons.forEach((button) => {
+accButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const content = button.nextElementSibling;
+    const panel = button.nextElementSibling;
 
-    if (!content) return;
+    if (!panel) return;
 
     button.classList.toggle("active");
-    content.classList.toggle("open");
+    panel.classList.toggle("open");
   });
 });
 });
