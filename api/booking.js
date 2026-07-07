@@ -42,6 +42,14 @@ export default async function handler(req, res) {
     }
 
     const busyEvents = calendarData.items || [];
+    console.log("CHECK FROM:", start.toISOString());
+console.log("CHECK TO:", end.toISOString());
+console.log("EVENTS COUNT:", busyEvents.length);
+console.log("EVENTS:", busyEvents.map(e => ({
+  summary: e.summary,
+  start: e.start,
+  end: e.end
+})));
     console.log("CALENDAR DATA:", JSON.stringify(calendarData, null, 2));
 console.log("BUSY EVENTS:", busyEvents.length);
 console.log("CHECK FROM:", start.toISOString());
