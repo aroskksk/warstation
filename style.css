@@ -952,3 +952,32 @@ select {
     font-size: 17px;
   }
 }
+/* ===========================
+   АКЦИИ
+=========================== */
+
+.promotions{
+    padding:100px 0;
+}
+
+.promo-card{
+    max-width:1000px;
+    margin:0 auto;
+    overflow:hidden;
+    border-radius:24px;
+    border:2px solid #00d9ff;
+    box-shadow:0 0 35px rgba(0,217,255,.18);
+    transition:.35s;
+    background:#0d1118;
+}
+
+.promo-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 0 45px rgba(0,217,255,.35);
+}
+
+.promo-card img{
+    display:block;
+    width:100%;
+    height:auto;
+}
