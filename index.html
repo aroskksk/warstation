@@ -239,14 +239,18 @@
   </div>
 </section>
 
-    <section id="booking" class="booking">
+   <section id="booking" class="booking">
   <div class="booking-box">
 
+    <!-- Левая колонка -->
     <div class="booking-info">
+
       <p class="small-title">Онлайн-запись</p>
+
       <h2>Забронируй игру</h2>
+
       <p>
-        Напишите нам в Telegram или MAX.  
+        Напишите нам в Telegram или MAX.
         Мы подберём удобное время и подтвердим запись.
       </p>
 
@@ -274,49 +278,109 @@
         </div>
       </div>
 
-      <div class="booking-buttons">
-        <a href="https://t.me/archi_vik_viki" target="_blank" class="btn">Telegram</a>
-        <a href="https://max.ru/" target="_blank" class="btn btn-outline">MAX</a>
-      </div>
     </div>
 
+    <!-- Правая колонка -->
     <form id="bookingForm" class="booking-form">
 
       <div class="form-row">
+
         <label>
           Ваше имя
-          <input type="text" name="name" placeholder="Введите ваше имя" required>
+          <input
+            type="text"
+            name="name"
+            placeholder="Введите ваше имя"
+            required
+          >
         </label>
 
         <label>
           Телефон
-          <input type="tel" name="phone" placeholder="Введите номер телефона" required>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Введите номер телефона"
+            required
+          >
         </label>
+
       </div>
 
       <div class="form-row">
+
         <label>
           Количество игроков
-          <input type="number" name="players" min="1" max="10" placeholder="Количество игроков" required>
+          <input
+            type="number"
+            name="players"
+            min="1"
+            max="10"
+            placeholder="Количество игроков"
+            required
+          >
         </label>
 
         <label>
           Возраст игроков
-          <input type="number" name="age" min="6" max="99" placeholder="Возраст игроков" required>
+          <input
+            type="number"
+            name="age"
+            min="6"
+            max="99"
+            placeholder="Возраст игроков"
+            required
+          >
         </label>
+
       </div>
 
       <label>
         Дата и время
-        <input type="text" name="datetime" id="datetime" placeholder="Выберите дату и время" required>
+        <input
+          type="text"
+          name="datetime"
+          id="datetime"
+          placeholder="Выберите дату и время"
+          required
+        >
       </label>
 
       <label>
         Комментарий
-        <textarea name="comment" rows="4" maxlength="500" placeholder="Расскажите о ваших пожеланиях"></textarea>
+        <textarea
+          name="comment"
+          rows="4"
+          maxlength="500"
+          placeholder="Расскажите о ваших пожеланиях"
+        ></textarea>
       </label>
 
-      <button type="submit" class="btn form-btn">Забронировать</button>
+      <button type="submit" class="btn form-btn">
+        Забронировать
+      </button>
+
+      <!-- Кнопки теперь находятся здесь -->
+      <div class="booking-buttons">
+
+        <a
+          href="https://t.me/archi_vik_viki"
+          target="_blank"
+          class="btn"
+        >
+          Telegram
+        </a>
+
+        <a
+          href="https://max.ru/"
+          target="_blank"
+          class="btn btn-outline"
+        >
+          MAX
+        </a>
+
+      </div>
+
     </form>
 
   </div>
