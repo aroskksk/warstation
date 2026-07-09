@@ -253,57 +253,84 @@
 </section>
 
     <section id="booking" class="booking">
-      <div class="booking-box reveal">
+  <div class="booking-box">
+
+    <div class="booking-info">
+      <p class="small-title">Онлайн-запись</p>
+      <h2>Забронируй игру</h2>
+      <p>
+        Напишите нам в Telegram или MAX.  
+        Мы подберём удобное время и подтвердим запись.
+      </p>
+
+      <div class="booking-feature">
+        <div class="feature-icon">🕒</div>
         <div>
-          <p class="small-title">Онлайн-запись</p>
-          <h2>Забронируй игру</h2>
-          <p>Напишите нам в Telegram или MAX. Мы подберём удобное время и подтвердим запись.</p>
-        </div>
-        <form id="bookingForm" class="booking-form">
-  <div class="form-row">
-    <input type="text" name="name" placeholder="Ваше имя" required>
-    <input type="tel" name="phone" placeholder="Телефон" required>
-  </div>
-
-  <div class="form-row">
-    <input type="number" name="players" min="1" max="10" placeholder="Количество игроков" required>
-    <input type="number" name="age" min="6" max="99" placeholder="Возраст" required>
-  </div>
-
-  <div class="form-row">
-  <input
-    type="text"
-    name="datetime"
-    id="datetime"
-    placeholder="Выберите дату и время"
-    required
-  >
-</div>
-
-  <textarea name="comment" rows="4" placeholder="Комментарий (необязательно)"></textarea>
-
-  <button type="submit" class="btn form-btn">Забронировать</button>
-</form>
-        <div class="booking-buttons">
-          <a href="https://t.me/archi_vik_viki" target="_blank" class="btn">Telegram</a>
-          <a href="https://max.ru/" target="_blank" class="btn btn-outline">MAX</a>
+          <h3>Удобное время</h3>
+          <p>Выберите дату и время, которые подходят именно вам.</p>
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer id="contacts" class="footer reveal">
-    <h2>WARSTATION</h2>
-    <p>📍 ул. Хрещатинская, 68Б</p>
-    <p>📞 <a href="tel:+79004267579">8 (900) 426-75-79</a></p>
-    <p>📲 Telegram: <a href="https://t.me/archi_vik_viki" target="_blank">@archi_vik_viki</a></p>
-    <p>💬 MAX: 89004267579</p>
-    <p>🕒 Ежедневно с 11:00 до 21:00</p>
-  </footer>
+      <div class="booking-feature">
+        <div class="feature-icon">👥</div>
+        <div>
+          <h3>Для любой компании</h3>
+          <p>Укажите количество игроков и возраст участников.</p>
+        </div>
+      </div>
 
-  <button class="top-btn" id="topBtn" aria-label="Наверх">↑</button>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
-<script src="script.js"></script>
-</body>
-</html>
+      <div class="booking-feature">
+        <div class="feature-icon">💬</div>
+        <div>
+          <h3>Подтверждение</h3>
+          <p>Мы свяжемся с вами для подтверждения брони.</p>
+        </div>
+      </div>
+
+      <div class="booking-buttons">
+        <a href="https://t.me/archi_vik_viki" target="_blank" class="btn">Telegram</a>
+        <a href="https://max.ru/" target="_blank" class="btn btn-outline">MAX</a>
+      </div>
+    </div>
+
+    <form id="bookingForm" class="booking-form">
+
+      <div class="form-row">
+        <label>
+          Ваше имя
+          <input type="text" name="name" placeholder="Введите ваше имя" required>
+        </label>
+
+        <label>
+          Телефон
+          <input type="tel" name="phone" placeholder="Введите номер телефона" required>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>
+          Количество игроков
+          <input type="number" name="players" min="1" max="10" placeholder="Количество игроков" required>
+        </label>
+
+        <label>
+          Возраст игроков
+          <input type="number" name="age" min="6" max="99" placeholder="Возраст игроков" required>
+        </label>
+      </div>
+
+      <label>
+        Дата и время
+        <input type="text" name="datetime" id="datetime" placeholder="Выберите дату и время" required>
+      </label>
+
+      <label>
+        Комментарий
+        <textarea name="comment" rows="4" maxlength="500" placeholder="Расскажите о ваших пожеланиях"></textarea>
+      </label>
+
+      <button type="submit" class="btn form-btn">Забронировать</button>
+    </form>
+
+  </div>
+</section>
