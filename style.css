@@ -662,8 +662,8 @@ select {
 ========================= */
 
 .reveal {
-  opacity: 0;
-  transform: translateY(55px);
+  opacity: 1;
+  transform: none;
   transition: 1s;
 }
 
