@@ -1168,3 +1168,7 @@ select {
     grid-template-columns: 1fr;
   }
 }
+.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
