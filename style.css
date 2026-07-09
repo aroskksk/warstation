@@ -1168,3 +1168,18 @@ select {
     grid-template-columns: 1fr;
   }
 }
+.hero-content {
+  position: relative;
+  z-index: 5;
+}
+
+.hero-buttons {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-buttons a {
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+}
