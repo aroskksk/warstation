@@ -87,14 +87,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const accButtons = document.querySelectorAll(".acc-btn");
 
-  accButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const panel = button.nextElementSibling;
+accButtons.forEach((button) => {
+  button.onclick = () => {
+    const panel = button.nextElementSibling;
 
-      if (!panel) return;
+    if (!panel) return;
 
-      button.classList.toggle("active");
-      panel.classList.toggle("open");
-    });
-  });
+    button.classList.toggle("active");
+
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  };
+});
 });
