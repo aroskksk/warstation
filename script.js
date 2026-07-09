@@ -17,16 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuBtn = document.querySelector("#menuBtn");
   const nav = document.querySelector("#nav");
   const topBtn = document.querySelector("#topBtn");
-  const revealItems = document.querySelectorAll(".reveal");
   const bookingForm = document.querySelector("#bookingForm");
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add("active");
-    });
-  }, { threshold: 0.15 });
-
-  revealItems.forEach((item) => observer.observe(item));
 
   window.addEventListener("scroll", () => {
     if (header) header.classList.toggle("scrolled", window.scrollY > 70);
@@ -72,34 +63,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const result = await response.json();
 
-        if (!response.ok) {
-          alert(result.message);
-          return;
-        }
-
         alert(result.message);
-        bookingForm.reset();
+
+        if (response.ok) {
+          bookingForm.reset();
+        }
       } catch (error) {
         alert("Ошибка отправки. Попробуйте ещё раз.");
       }
     });
   }
 
-  const accButtons = document.querySelectorAll(".acc-btn");
+  document.querySelectorAll(".acc-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const panel = button.nextElementSibling;
 
-accButtons.forEach((button) => {
-  button.onclick = () => {
-    const panel = button.nextElementSibling;
+      if (!panel) return;
 
-    if (!panel) return;
-
-    button.classList.toggle("active");
-
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  };
-});
+      button.classList.toggle("active");
+      panel.classList.toggle("open");
+    });
+  });
 });
