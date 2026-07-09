@@ -986,10 +986,8 @@ select {
 =========================== */
 
 .promotions {
-  padding: 110px 7%;
-  background:
-    radial-gradient(circle at center, rgba(255, 191, 0, 0.12), transparent 35%),
-    linear-gradient(180deg, #05070d, #080a10);
+  padding: 80px 7% 120px;
+  background: transparent;
 }
 
 .promotions .games-accordion {
