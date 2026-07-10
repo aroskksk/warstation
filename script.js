@@ -43,9 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = new FormData(bookingForm);
 
-      const payload = {
-        name: data.get("name"),
-        phone: data.get("phone"),
+    const payload = {
+    name: data.get("name"),
+    phone: data.get("phone").replace(/\D/g, ""),
         players: data.get("players"),
         age: data.get("age"),
         datetime: data.get("datetime"),
@@ -84,4 +84,39 @@ document.addEventListener("DOMContentLoaded", () => {
       panel.classList.toggle("open");
     });
   });
+  const phoneInput = document.querySelector("#phone");
+
+if (phoneInput) {
+
+    phoneInput.addEventListener("input", function (e) {
+
+        let value = this.value.replace(/\D/g, "");
+
+        if (value.startsWith("7")) {
+            value = value.substring(1);
+        }
+
+        if (value.startsWith("8")) {
+            value = value.substring(1);
+        }
+
+        value = value.substring(0, 10);
+
+        let result = "+7";
+
+        if (value.length > 0)
+            result += " (" + value.substring(0, 3);
+
+        if (value.length >= 3)
+            result += ") " + value.substring(3, 6);
+
+        if (value.length >= 6)
+            result += "-" + value.substring(6, 8);
+
+        if (value.length >= 8)
+            result += "-" + value.substring(8, 10);
+
+        this.value = result;
+    });
+  }
 });
