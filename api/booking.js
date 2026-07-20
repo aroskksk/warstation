@@ -295,11 +295,8 @@ export default async function handler(req, res) {
       `🎂 Возраст участников: ${ageNumber}`,
       `📅 Дата и время: ${cleanDatetime}`,
       `⏱ Продолжительность: ${durationLabel}`,
-      `🕓 Окончание: ${end.toLocaleTimeString("ru-RU", {
-        timeZone: "UTC",
-        hour: "2-digit",
-        minute: "2-digit"
-      })}`,
+     `🕓 Окончание: ${String(end.getHours()).padStart(2, "0")}:${String(end.getMinutes()).padStart(2, "0")}`,
+
       "",
       "💬 Комментарий:",
       cleanComment || "Нет"
