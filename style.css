@@ -125,6 +125,7 @@ select {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   z-index: -3;
 }
 
@@ -1180,4 +1181,66 @@ select {
   position: relative;
   z-index: 11;
   pointer-events: auto;
+}
+/* Адаптация главного видео для телефона */
+
+@media (max-width: 700px) {
+  .hero {
+    height: 100svh;
+    min-height: 640px;
+  }
+
+  .hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /*
+      Меняй второе значение, чтобы двигать кадр:
+      center 35% — выше
+      center 50% — по центру
+      center 65% — ниже
+    */
+    object-position: center 45%;
+  }
+
+  .hero-dark {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.32) 0%,
+        rgba(0, 0, 0, 0.48) 45%,
+        rgba(5, 7, 13, 0.92) 100%
+      );
+  }
+
+  .hero-content {
+    width: 92%;
+    padding: 90px 10px 70px;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 14vw, 66px);
+    overflow-wrap: anywhere;
+  }
+
+  .hero-subtitle {
+    margin: 20px auto 28px;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .hero-buttons {
+    gap: 14px;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 330px;
+    padding: 16px 24px;
+  }
+
+  .scroll-down {
+    bottom: 18px;
+  }
 }
