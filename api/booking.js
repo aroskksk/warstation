@@ -1,84 +1,309 @@
+const ALLOWED_DURATIONS = [60, 90, 120, 180];
+
+function getDurationLabel(duration) {
+  const labels = {
+    60: "1 час",
+    90: "1,5 часа",
+    120: "2 часа",
+    180: "3 часа"
+  };
+
+  return labels[duration] || `${duration} минут`;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Метод не разрешён" });
+    res.setHeader("Allow", "POST");
+
+    return res.status(405).json({
+      message: "Метод не разрешён."
+    });
   }
 
   try {
-    const { name, phone, players, age, datetime, comment } = req.body;
+    const {
+      name,
+      phone,
+      players,
+      age,
+      duration,
+      datetime,
+      comment = ""
+    } = req.body || {};
 
-    if (!name || !phone || !players || !age || !datetime) {
+    const cleanName = String(name || "").trim();
+    const cleanPhone = String(phone || "").replace(/\D/g, "");
+    const playersNumber = Number(players);
+    const ageNumber = Number(age);
+    const durationMinutes = Number(duration);
+    const cleanDatetime = String(datetime || "").trim();
+    const cleanComment = String(comment || "").trim();
+
+    /* =========================
+       ПРОВЕРКА ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ
+    ========================= */
+
+    if (
+      !cleanName ||
+      !cleanPhone ||
+      !playersNumber ||
+      !ageNumber ||
+      !durationMinutes ||
+      !cleanDatetime
+    ) {
       return res.status(400).json({
         message: "Заполните все обязательные поля."
       });
     }
 
-    const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
-    const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;
-    const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+    if (cleanName.length < 2 || cleanName.length > 80) {
+      return res.status(400).json({
+        message: "Введите корректное имя."
+      });
+    }
 
-    const [datePart, timePart] = datetime.split(" ");
-    const [day, month, year] = datePart.split(".");
+    if (
+      cleanPhone.length !== 11 ||
+      !cleanPhone.startsWith("7")
+    ) {
+      return res.status(400).json({
+        message: "Введите корректный номер телефона."
+      });
+    }
 
-    const start = new Date(`${year}-${month}-${day}T${timePart}:00+10:00`);
-    const end = new Date(start.getTime() + 60 * 60 * 1000);
+    if (
+      !Number.isInteger(playersNumber) ||
+      playersNumber < 1 ||
+      playersNumber > 10
+    ) {
+      return res.status(400).json({
+        message: "Количество игроков должно быть от 1 до 10."
+      });
+    }
 
-    const calendarUrl =
-      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events` +
-      `?key=${GOOGLE_API_KEY}` +
-      `&timeMin=${start.toISOString()}` +
-      `&timeMax=${end.toISOString()}` +
-      `&singleEvents=true` +
-      `&orderBy=startTime`;
+    if (
+      !Number.isInteger(ageNumber) ||
+      ageNumber < 6 ||
+      ageNumber > 99
+    ) {
+      return res.status(400).json({
+        message: "Укажите корректный возраст игроков."
+      });
+    }
 
-    const calendarResponse = await fetch(calendarUrl);
-    const calendarData = await calendarResponse.json();
-    console.log(calendarData);
-console.log("ITEMS:", calendarData.items);
-console.log("COUNT:", calendarData.items?.length);
-    console.log(
-  "GOOGLE RESPONSE:",
-  JSON.stringify(calendarData, null, 2)
-);
-    if (!calendarResponse.ok) {
+    if (!ALLOWED_DURATIONS.includes(durationMinutes)) {
+      return res.status(400).json({
+        message: "Выберите корректную продолжительность."
+      });
+    }
+
+    if (cleanComment.length > 500) {
+      return res.status(400).json({
+        message: "Комментарий слишком длинный."
+      });
+    }
+
+    /* =========================
+       ПЕРЕМЕННЫЕ VERCEL
+    ========================= */
+
+    const {
+      GOOGLE_API_KEY,
+      GOOGLE_CALENDAR_ID,
+      TELEGRAM_TOKEN,
+      TELEGRAM_CHAT_ID,
+      TIMEZONE_OFFSET = "+10:00"
+    } = process.env;
+
+    if (
+      !GOOGLE_API_KEY ||
+      !GOOGLE_CALENDAR_ID ||
+      !TELEGRAM_TOKEN ||
+      !TELEGRAM_CHAT_ID
+    ) {
+      console.error(
+        "Не настроены переменные окружения для бронирования."
+      );
+
       return res.status(500).json({
-        message: "Не удалось проверить календарь. Попробуйте позже."
+        message: "Сервис бронирования временно недоступен."
       });
     }
 
-    const busyEvents = calendarData.items || [];
-    console.log("CHECK FROM:", start.toISOString());
-console.log("CHECK TO:", end.toISOString());
-console.log("EVENTS COUNT:", busyEvents.length);
-console.log("EVENTS:", busyEvents.map(e => ({
-  summary: e.summary,
-  start: e.start,
-  end: e.end
-})));
-    console.log("CALENDAR DATA:", JSON.stringify(calendarData, null, 2));
-console.log("BUSY EVENTS:", busyEvents.length);
-console.log("CHECK FROM:", start.toISOString());
-console.log("CHECK TO:", end.toISOString());
+    /* =========================
+       РАЗБОР ДАТЫ
+    ========================= */
 
+    const datetimeMatch = cleanDatetime.match(
+      /^(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2})$/
+    );
 
-    if (busyEvents.length > 0) {
+    if (!datetimeMatch) {
+      return res.status(400).json({
+        message: "Некорректный формат даты и времени."
+      });
+    }
+
+    const [, day, month, year, hours, minutes] =
+      datetimeMatch;
+
+    const start = new Date(
+      `${year}-${month}-${day}T${hours}:${minutes}:00${TIMEZONE_OFFSET}`
+    );
+
+    if (Number.isNaN(start.getTime())) {
+      return res.status(400).json({
+        message: "Выбрана некорректная дата."
+      });
+    }
+
+    if (start.getTime() <= Date.now()) {
+      return res.status(400).json({
+        message: "Выберите будущую дату и время."
+      });
+    }
+
+    const end = new Date(
+      start.getTime() + durationMinutes * 60 * 1000
+    );
+
+    /* =========================
+       ПРОВЕРКА ВРЕМЕНИ РАБОТЫ
+    ========================= */
+
+    const openingTime = new Date(
+      `${year}-${month}-${day}T11:00:00${TIMEZONE_OFFSET}`
+    );
+
+    const closingTime = new Date(
+      `${year}-${month}-${day}T21:00:00${TIMEZONE_OFFSET}`
+    );
+
+    if (
+      start.getTime() < openingTime.getTime() ||
+      end.getTime() > closingTime.getTime()
+    ) {
+      return res.status(400).json({
+        message:
+          "Выбранное бронирование выходит за пределы времени работы арены."
+      });
+    }
+
+    /* =========================
+       ПРОВЕРКА GOOGLE CALENDAR
+    ========================= */
+
+    const calendarUrl = new URL(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+        GOOGLE_CALENDAR_ID
+      )}/events`
+    );
+
+    calendarUrl.searchParams.set("key", GOOGLE_API_KEY);
+    calendarUrl.searchParams.set(
+      "timeMin",
+      start.toISOString()
+    );
+    calendarUrl.searchParams.set(
+      "timeMax",
+      end.toISOString()
+    );
+    calendarUrl.searchParams.set("singleEvents", "true");
+    calendarUrl.searchParams.set("orderBy", "startTime");
+
+    const calendarResponse = await fetch(
+      calendarUrl.toString(),
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json"
+        }
+      }
+    );
+
+    const calendarData = await calendarResponse.json();
+
+    if (!calendarResponse.ok) {
+      console.error(
+        "Ошибка Google Calendar:",
+        calendarData
+      );
+
+      return res.status(500).json({
+        message:
+          "Не удалось проверить календарь. Попробуйте позже."
+      });
+    }
+
+    const events = Array.isArray(calendarData.items)
+      ? calendarData.items
+      : [];
+
+    const startTimestamp = start.getTime();
+    const endTimestamp = end.getTime();
+
+    const hasConflict = events.some((event) => {
+      const eventStartValue =
+        event.start?.dateTime || event.start?.date;
+
+      const eventEndValue =
+        event.end?.dateTime || event.end?.date;
+
+      if (!eventStartValue || !eventEndValue) {
+        return false;
+      }
+
+      const eventStart = new Date(eventStartValue).getTime();
+      const eventEnd = new Date(eventEndValue).getTime();
+
+      if (
+        Number.isNaN(eventStart) ||
+        Number.isNaN(eventEnd)
+      ) {
+        return false;
+      }
+
+      return (
+        startTimestamp < eventEnd &&
+        endTimestamp > eventStart
+      );
+    });
+
+    if (hasConflict) {
       return res.status(409).json({
-        message: "Это время уже занято. Пожалуйста, выберите другое время."
+        message:
+          "Это время уже занято. Пожалуйста, выберите другое время."
       });
     }
 
-    const text = `
-🎮 Новая заявка WARSTATION
+    /* =========================
+       СООБЩЕНИЕ В TELEGRAM
+    ========================= */
 
-👤 Имя: ${name}
-📞 Телефон: ${phone}
-👥 Количество игроков: ${players}
-🎂 Возраст участников: ${age}
-📅 Дата и время: ${datetime}
+    const durationLabel =
+      getDurationLabel(durationMinutes);
 
-💬 Комментарий:
-${comment || "Нет"}
-`;
+    const formattedPhone =
+      `+${cleanPhone}`;
+
+    const text = [
+      "🎮 Новая заявка WARSTATION",
+      "",
+      `👤 Имя: ${cleanName}`,
+      `📞 Телефон: ${formattedPhone}`,
+      `👥 Количество игроков: ${playersNumber}`,
+      `🎂 Возраст участников: ${ageNumber}`,
+      `📅 Дата и время: ${cleanDatetime}`,
+      `⏱ Продолжительность: ${durationLabel}`,
+      `🕓 Окончание: ${end.toLocaleTimeString("ru-RU", {
+        timeZone: "UTC",
+        hour: "2-digit",
+        minute: "2-digit"
+      })}`,
+      "",
+      "💬 Комментарий:",
+      cleanComment || "Нет"
+    ].join("\n");
 
     const telegramResponse = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
@@ -94,16 +319,34 @@ ${comment || "Нет"}
       }
     );
 
-    if (!telegramResponse.ok) {
+    const telegramData =
+      await telegramResponse.json();
+
+    if (
+      !telegramResponse.ok ||
+      telegramData.ok !== true
+    ) {
+      console.error(
+        "Ошибка Telegram:",
+        telegramData
+      );
+
       return res.status(500).json({
-        message: "Не удалось отправить заявку. Попробуйте позже."
+        message:
+          "Не удалось отправить заявку. Попробуйте позже."
       });
     }
 
     return res.status(200).json({
-      message: "Заявка отправлена! Мы скоро свяжемся с вами."
+      message:
+        "Заявка отправлена! Мы скоро свяжемся с вами."
     });
   } catch (error) {
+    console.error(
+      "Ошибка API бронирования:",
+      error
+    );
+
     return res.status(500).json({
       message: "Ошибка сервера. Попробуйте позже."
     });

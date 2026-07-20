@@ -1140,6 +1140,7 @@ select {
 }
 
 .booking-form input,
+.booking-form select,
 .booking-form textarea {
   margin-top: 8px;
   width: 100%;
@@ -1151,6 +1152,7 @@ select {
 }
 
 .booking-form input:focus,
+.booking-form select:focus,
 .booking-form textarea:focus {
   outline: none;
   border-color: #00eaff;
@@ -1403,4 +1405,24 @@ select {
     padding: 12px 5px;
     font-size: 14px;
   }
+}
+.booking-form select {
+  margin-top: 8px;
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 234, 255, 0.22);
+  background: #111722;
+  color: white;
+  cursor: pointer;
+}
+
+.booking-form select option {
+  background: #111722;
+  color: white;
+}
+
+.booking-form input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
