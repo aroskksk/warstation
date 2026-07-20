@@ -1332,3 +1332,75 @@ select {
     font-size: 16px;
   }
 }
+/* =========================
+   СВОБОДНОЕ ВРЕМЯ
+========================= */
+
+.available-time-block {
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 234, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.available-time-title {
+  margin-bottom: 10px;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.availability-message {
+  margin-bottom: 16px;
+  color: #bfc7d5;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.time-slot {
+  padding: 13px 8px;
+  border: 1px solid rgba(0, 234, 255, 0.4);
+  border-radius: 12px;
+  background: rgba(0, 234, 255, 0.08);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
+  transition: 0.25s;
+}
+
+.time-slot:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #00eaff;
+  box-shadow: 0 0 20px rgba(0, 234, 255, 0.28);
+}
+
+.time-slot.selected {
+  background: linear-gradient(45deg, #00eaff, #005eff);
+  border-color: #00eaff;
+  box-shadow: 0 0 25px rgba(0, 234, 255, 0.4);
+}
+
+.time-slot.busy,
+.time-slot:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  background: rgba(255, 60, 60, 0.08);
+  border-color: rgba(255, 60, 60, 0.25);
+}
+
+@media (max-width: 560px) {
+  .time-slots {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .time-slot {
+    padding: 12px 5px;
+    font-size: 14px;
+  }
+}

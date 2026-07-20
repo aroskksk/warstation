@@ -367,16 +367,33 @@
 
       </div>
 
-      <label>
-        Дата и время
-        <input
-          type="text"
-          name="datetime"
-          id="datetime"
-          placeholder="Выберите дату и время"
-          required
-        >
-      </label>
+     <label>
+  Выберите дату
+  <input
+    type="text"
+    id="bookingDate"
+    placeholder="Выберите дату"
+    autocomplete="off"
+    required
+  >
+</label>
+
+<div class="available-time-block">
+  <p class="available-time-title">Свободное время</p>
+
+  <div id="availabilityMessage" class="availability-message">
+    Сначала выберите дату
+  </div>
+
+  <div id="timeSlots" class="time-slots"></div>
+</div>
+
+<input
+  type="hidden"
+  name="datetime"
+  id="datetime"
+  required
+>
 
       <label>
         Комментарий

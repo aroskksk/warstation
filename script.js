@@ -1,17 +1,120 @@
 document.addEventListener("DOMContentLoaded", () => {
-  if (typeof flatpickr !== "undefined") {
-    flatpickr("#datetime", {
-      locale: "ru",
-      enableTime: true,
-      time_24hr: true,
-      minuteIncrement: 30,
-      minDate: "today",
-      minTime: "11:00",
-      maxTime: "21:00",
-      dateFormat: "d.m.Y H:i",
-      disableMobile: true
+const bookingDateInput = document.querySelector("#bookingDate");
+const datetimeInput = document.querySelector("#datetime");
+const timeSlots = document.querySelector("#timeSlots");
+const availabilityMessage = document.querySelector(
+  "#availabilityMessage"
+);
+
+let selectedDateDisplay = "";
+let selectedDateApi = "";
+
+function formatDateForApi(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function formatDateForForm(date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}.${month}.${year}`;
+}
+
+async function loadAvailableSlots(date) {
+  if (!timeSlots || !availabilityMessage) return;
+
+  timeSlots.innerHTML = "";
+  availabilityMessage.textContent = "Проверяем свободное время…";
+
+  try {
+    const response = await fetch(
+      `/api/availability?date=${encodeURIComponent(date)}`
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Ошибка загрузки времени");
+    }
+
+    const availableSlots = result.slots.filter(
+      (slot) => slot.available
+    );
+
+    if (availableSlots.length === 0) {
+      availabilityMessage.textContent =
+        "На эту дату свободного времени нет.";
+      return;
+    }
+
+    availabilityMessage.textContent =
+      "Выберите подходящее время:";
+
+    result.slots.forEach((slot) => {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.className = "time-slot";
+      button.textContent = slot.time;
+
+      if (!slot.available) {
+        button.disabled = true;
+        button.classList.add("busy");
+        button.title = "Это время занято";
+      }
+
+      button.addEventListener("click", () => {
+        document
+          .querySelectorAll(".time-slot")
+          .forEach((item) => item.classList.remove("selected"));
+
+        button.classList.add("selected");
+
+        datetimeInput.value =
+          `${selectedDateDisplay} ${slot.time}`;
+      });
+
+      timeSlots.appendChild(button);
     });
+  } catch (error) {
+    console.error(error);
+
+    availabilityMessage.textContent =
+      "Не удалось загрузить свободное время. Попробуйте ещё раз.";
   }
+}
+
+if (
+  typeof flatpickr !== "undefined" &&
+  bookingDateInput
+) {
+  flatpickr(bookingDateInput, {
+    locale: "ru",
+    minDate: "today",
+    dateFormat: "d.m.Y",
+    disableMobile: true,
+
+    onChange(selectedDates) {
+      const selectedDate = selectedDates[0];
+
+      if (!selectedDate) return;
+
+      selectedDateApi = formatDateForApi(selectedDate);
+      selectedDateDisplay = formatDateForForm(selectedDate);
+
+      if (datetimeInput) {
+        datetimeInput.value = "";
+      }
+
+      loadAvailableSlots(selectedDateApi);
+    }
+  });
+}
 
   const header = document.querySelector("#header");
   const menuBtn = document.querySelector("#menuBtn");
